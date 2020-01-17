@@ -44,7 +44,19 @@ public class MessageDAOImpl implements MessageDAO {
 
     @Override
     public Message get(Long id) {
-        return entityManager.find(Message.class, id);
+        Message message = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM message WHERE id = ?");
+            preparedStatement.setLong(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                message = new Message();
+                message.setId(id);
+                message.setContentText(rs.getString("contentText"));
+            }
+        } catch (SQLException ex) {
+        }
+        return message;
     }
 
     @Override
@@ -60,7 +72,7 @@ public class MessageDAOImpl implements MessageDAO {
     @Override
     public void update(Message message) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE message SET contentText = ? WHERE id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE message SET contentText = ? WHERE id = ?;");
             preparedStatement.setString(1, message.getContentText());
             preparedStatement.setLong(2, message.getId());
             preparedStatement.executeUpdate();
@@ -74,7 +86,7 @@ public class MessageDAOImpl implements MessageDAO {
         try {
             Statement stmt = null;
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM message;");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM message ORDER BY id DESC;");
             while (rs.next()) {
                 Message message = new Message();
                 message.setId(rs.getLong("id"));

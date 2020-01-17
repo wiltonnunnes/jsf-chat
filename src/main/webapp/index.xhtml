@@ -33,7 +33,7 @@
                         <h:form class="d-flex flex-row" id="form1">
                             <h:commandLink value="Excluir" action="#{messageBean.removeMessage(message)}" />
                             <h:commandLink value="Editar" onclick="initEdit(this);" id="editButton">
-                                <f:ajax execute="editButton" render="form"/>
+                                <f:ajax listener="#{messageBean.editMessage}"/>
                             </h:commandLink>
                         </h:form>
                         <h:form style="display: none;" id="form">
@@ -42,7 +42,7 @@
                             </div>
                             <div class="d-flex flex-row">
                                 <h:commandButton value="Enviar" action="#{messageBean.updateMessage(message)}" class="btn btn-secondary" />
-                                <button type="button" class="btn btn-secondary mr-1">Cancelar</button>
+                                <h:commandButton value="Cancelar" onclick="cancelEdit(this);" class="btn btn-secondary" />
                             </div>
                         </h:form>
                     </div>
@@ -58,6 +58,11 @@
                 var id = editButton.id;
                 var form = document.getElementById(id.replace(":form1", "").replace("editButton", "form"));
                 form.style.display = "block";
+            }
+            
+            function cancelEdit(cancelButton) {
+                var form = cancelButton.parentElement.parentElement;
+                form.style.display = "none";
             }
         </script>
     </h:body>

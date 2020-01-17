@@ -3,4 +3,4 @@ com\bombapack\chat\dao\ConnectionFactory.class
 com\bombapack\chat\dao\MessageDAO.class
 com\bombapack\chat\model\Message.class
 com\bombapack\chat\dao\MessageDAOImpl.class
-com\bombapack\chat\beans\ChatBean.class
+com\bombapack\chat\beans\MessagesBean.class

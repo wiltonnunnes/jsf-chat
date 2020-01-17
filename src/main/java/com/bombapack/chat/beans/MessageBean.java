@@ -16,9 +16,14 @@ import java.util.List;
 import javax.inject.Named;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.NoneScoped;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -55,7 +60,6 @@ public class MessageBean {
     
     public List<Message> getMessages() {
         messages = messageDAO.getAll();
-        Collections.reverse(messages);
         return messages;
     }
     
@@ -67,22 +71,18 @@ public class MessageBean {
         messageDAO.update(message);
     }
     
-    public void editMessage(javax.faces.event.AjaxBehaviorEvent e) {
+    public void editMessage(AjaxBehaviorEvent e) {
+        /*
         UIComponent editButton = e.getComponent();
-        //message.setEditing(true);
+        
         FacesContext context = FacesContext.getCurrentInstance();
         Collection<String> renderIds = context.getPartialViewContext().getRenderIds();
         
         String id = editButton.getId().replace(":form1", "").replace("editButton", "form");
-        UIComponent form = editButton.findComponent(id);
-        /*
-        UIComponent deleteButton = editButton.findComponent("button");
-        
-        renderIds.remove(editButton.getId());
-        renderIds.remove(deleteButton.getId());
-        */
+        UIComponent form = editButton.getParent().findComponent(id);
         
         renderIds.add(form.getId());
+        */
     }
     
     public Message getMessage() {
