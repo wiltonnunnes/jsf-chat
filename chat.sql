@@ -1,5 +1,3 @@
-CREATE DATABASE chat;
-
 CREATE TABLE message (
 	id SERIAL PRIMARY KEY,
 	contentText TEXT NOT NULL

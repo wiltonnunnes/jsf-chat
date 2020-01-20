@@ -22,7 +22,7 @@ public class ConnectionFactory {
     public static Connection createConnection() {
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/chat", "postgres", "postgres");
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/chat", "postgres", "slipknot666");
         } catch (Exception e) {
         }
         return connection;

@@ -13,37 +13,32 @@
     </h:head>
     <h:body>
         <div class="container">
-            <h:form>
-                <div class="d-flex flex-row mb-1">
-                    <h:inputTextarea value="#{messageBean.contentText}" class="w-100" />
+            <h:form styleClass="mb-2">
+                <div class="form-group">
+                    <h:inputTextarea value="#{messageBean.contentText}" class="form-control" rows="5" />
                 </div>
-                <div class="d-flex flex-row-reverse mb-2">
-                    <h:commandButton value="Enviar" action="#{messageBean.addMessage}" class="btn btn-secondary" />
-                    <button type="button" class="btn btn-secondary mr-1">Cancelar</button>
-                </div>
+                <h:commandButton value="Enviar" action="#{messageBean.addMessage}" class="btn btn-primary" />
+                <button type="reset" class="btn btn-primary">Limpar</button>
             </h:form>
             <ui:repeat value="#{messageBean.messages}" var="message" varStatus="status" id="repeatId">
-                <div class="border">
-                    <div class="d-flex flex-row mb-2 pb-3">
-                        <div class="col">
-                            <p><h:outputText value="#{message.contentText}" /></p>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-row">
-                        <h:form class="d-flex flex-row" id="form1">
-                            <h:commandLink value="Excluir" action="#{messageBean.removeMessage(message)}" />
-                            <h:commandLink value="Editar" onclick="initEdit(this);" id="editButton">
+                <div class="card">
+                    <div class="card-body">
+                        <h:form id="form1">
+                            <p class="card-text"><h:outputText value="#{message.contentText}" /></p>
+                            <h:commandLink styleClass="card-link" value="Excluir" action="#{messageBean.removeMessage(message)}" />
+                            <h:commandLink styleClass="card-link" value="Editar" onclick="initEdit(this);" id="editButton">
                                 <f:ajax listener="#{messageBean.editMessage}"/>
                             </h:commandLink>
+                            <!--<a href="#form" data-toggle="collapse" class="card-link">Editar</a>-->
                         </h:form>
-                        <h:form style="display: none;" id="form">
-                            <div class="d-flex flex-row mb-1">
-                                <h:inputTextarea value="#{message.contentText}" class="w-100" />
+                        <h:form class="collapse" style="display: none;" id="form">
+                            <div class="form-group">
+                                <h:inputTextarea value="#{message.contentText}" class="form-control" rows="5" />
                             </div>
-                            <div class="d-flex flex-row">
-                                <h:commandButton value="Enviar" action="#{messageBean.updateMessage(message)}" class="btn btn-secondary" />
-                                <h:commandButton value="Cancelar" onclick="cancelEdit(this);" class="btn btn-secondary" />
-                            </div>
+                            <h:commandButton value="Enviar" action="#{messageBean.updateMessage(message)}" class="btn btn-primary mr-1" />
+                            <h:commandButton value="Cancelar" onclick="cancelEdit(this);" class="btn btn-primary" id="cancelButton">
+                                <f:ajax listener="#{messageBean.editMessage}"/>
+                            </h:commandButton>
                         </h:form>
                     </div>
                 </div>
@@ -57,12 +52,16 @@
             function initEdit(editButton) {
                 var id = editButton.id;
                 var form = document.getElementById(id.replace(":form1", "").replace("editButton", "form"));
+                var form1 = document.getElementById(id.replace(":editButton", ""));
+                form1.style.display = "none";
                 form.style.display = "block";
             }
             
             function cancelEdit(cancelButton) {
                 var form = cancelButton.parentElement.parentElement;
+                var form1 = document.getElementById(id.replace("form", "form1"));
                 form.style.display = "none";
+                form1.style.display = "block";
             }
         </script>
     </h:body>
